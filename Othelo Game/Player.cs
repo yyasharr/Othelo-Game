@@ -6,11 +6,15 @@ using System.Threading.Tasks;
 
 namespace Othelo_Game
 {
-    class Program
+    class Player
     {
-        static void Main(string[] args)
-        {
+        Color _color;
 
+        public Player(Color color)
+        {
+            _color = color;
         }
+
+        
     }
 }
