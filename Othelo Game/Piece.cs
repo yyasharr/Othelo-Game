@@ -6,18 +6,29 @@ using System.Threading.Tasks;
 
 namespace Othelo_Game
 {
-    enum Color { Black, White };
+    
     class Piece
     {
         Color _color;
+
         public Color Color
         {
             get { return _color; }
-            set { _color = value; }
         }
+
         public Piece(Color color)
         {
             _color=color;
+        }
+
+        public void flip()
+        {
+            if (_color == Color.White)
+                _color = Color.Black;
+            else
+            {
+                _color = Color.White;
+            }
         }
 
     }
