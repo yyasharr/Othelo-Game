@@ -19,12 +19,17 @@ namespace Othelo_Game
             _color = color;
         }
 
-        bool placePiece(int i, int j)
+        public bool placePiece(int i, int j)
         {
             return Othelo.Instance.placePiece(i, j, _color);
         }
 
-        void Pass() //If the current player doesn't have any option to play, they can (must!) pass their turn.
+        public int Score()
+        {
+            return Othelo.Instance.getScore(_color);
+        }
+
+        public void Pass() //If the current player doesn't have any option to play, they can (must!) pass their turn.
         {
             Othelo.Instance.changeTurn();
         }

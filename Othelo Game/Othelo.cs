@@ -10,8 +10,8 @@ namespace Othelo_Game
     class Othelo
     { //Singleton
 
-        private static Othelo _instance;
-        readonly int n = 10; //row and column are always 10
+        private static Othelo _instance=null;
+        readonly int n = 6; //row and column are always 10
         Grid grid;
         Player player1;
         Player player2;
@@ -47,6 +47,20 @@ namespace Othelo_Game
             turn = turn == Color.White ? Color.Black : Color.White;
         }
 
+        public Player Player1
+        {
+            get { return player1; }
+        }
+        public Player Player2
+        {
+            get { return player2; }
+        }
+
+        public Player getTurn()
+        {
+            return turn == player1.Color ? player1 : player2;
+        }
+
         public int getScore(Color c)
         {
             return grid.getScore(c);
@@ -57,7 +71,7 @@ namespace Othelo_Game
             //Check1: Is it this user's turn?
             if (c != turn)
             {
-                Console.WriteLine("This is not" + c.ToString() + "'s turn");
+                Console.WriteLine("This is not " + c.ToString() + "'s turn");
                 return false;
             }
 

@@ -14,12 +14,13 @@ namespace Othelo_Game
         int whitecount = 0;
         Point[] Directions = { new Point(0, 1), new Point(0, -1), new Point(1, 0), new Point(-1, 0) };
 
-        
+
 
         public Grid(int N)
         {
             n = N;
             board = new Piece[n, n];
+            initialize();
             blackcount = 2;
             whitecount = 2;
         }
@@ -43,30 +44,39 @@ namespace Othelo_Game
         {
             Color other = c == Color.White ? Color.Black : Color.White;
             bool isThereAnyFlip = false;
-            for(int k=0; k<Directions.Length; k++)
+            for (int k = 0; k < Directions.Length; k++)
             {
                 int nexti = i + Directions[k].X;
                 int nextj = j + Directions[k].Y;
-                List<Point> toBeFlipped=new List<Point>();
+                List<Point> toBeFlipped = new List<Point>();
 
-                if (board[nexti,nextj].Color!=other) //if the next piece in this direction is not the other color, check another direction
+                if (nexti >= n || nextj >= n) continue;
+
+                if (board[nexti, nextj] == null) continue;
+
+                if (board[nexti, nextj].Color != other) //if the next piece in this direction is not the other color, check another direction
                 {
                     continue;
                 }
                 else    //if the next imidiate peice in this direction is the other color, move forward in this direction,
                 {       // until you get to a piece of your own color (flip all) or get to the end of the board and do nothing.
-                    
-                    while(nexti<n && nextj<n && board[nexti,nextj].Color==other) //creating a list of subsequence pieces with other color
+
+                    while (nexti < n && nextj < n && board[nexti, nextj].Color == other) //creating a list of subsequence pieces with other color
                     {
                         toBeFlipped.Add(new Point(nexti, nextj));
                         nexti = nexti + Directions[k].X;
                         nextj = nextj + Directions[k].Y;
                     }
 
-                    if(nexti<n && nextj<n && board[nexti,nextj].Color==c) //if after the sequence of other color, you saw your own color (trapped other color's pieces), flip the created list
+                    if (nexti < n && nextj < n && board[nexti, nextj].Color == c) //if after the sequence of other color, you saw your own color (trapped other color's pieces), flip the created list
                     {
                         isThereAnyFlip = true;
+                        if (c == Color.White)
+                            whitecount++;
+                        else
+                            blackcount++;
                         flipList(toBeFlipped);
+                        
                     }
                 }
             }
@@ -75,11 +85,10 @@ namespace Othelo_Game
 
         void flipList(List<Point> toBeFlipped)
         {
-            foreach(Point p in toBeFlipped)
+            foreach (Point p in toBeFlipped)
             {
-                Piece piece= board[p.X, p.Y];
-                piece.flip();
-                if(piece.Color==Color.White)
+                Piece piece = board[p.X, p.Y];
+                if (piece.Color == Color.White)
                 {
                     whitecount--;
                     blackcount++;
@@ -89,7 +98,7 @@ namespace Othelo_Game
                     whitecount++;
                     blackcount--;
                 }
-                
+                piece.flip();
             }
         }
 
@@ -98,6 +107,10 @@ namespace Othelo_Game
             //check1: whether the cell is empty and inside the grid
             if (isPlaceValid(i, j) == false)
                 return false;
+
+            if (doesItScore(i, j, c) == false)
+                return false;
+
             return true;
         }
 
@@ -108,7 +121,6 @@ namespace Othelo_Game
             return blackcount;
         }
     }
-
 
 }
 
