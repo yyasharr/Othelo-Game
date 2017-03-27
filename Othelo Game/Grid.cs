@@ -50,7 +50,7 @@ namespace Othelo_Game
                 int nextj = j + Directions[k].Y;
                 List<Point> toBeFlipped = new List<Point>();
 
-                if (nexti >= n || nextj >= n) continue;
+                if (nexti >= n || nextj >= n || nexti<0 || nextj<0) continue;
 
                 if (board[nexti, nextj] == null) continue;
 
@@ -58,17 +58,17 @@ namespace Othelo_Game
                 {
                     continue;
                 }
-                else    //if the next imidiate peice in this direction is the other color, move forward in this direction,
+                else   //if the next imidiate peice in this direction is the other color, move forward in this direction,
                 {       // until you get to a piece of your own color (flip all) or get to the end of the board and do nothing.
 
-                    while (nexti < n && nextj < n && board[nexti, nextj].Color == other) //creating a list of subsequence pieces with other color
+                    while (nexti < n && nextj < n && board[nexti, nextj] != null && board[nexti, nextj].Color == other) //creating a list of subsequence pieces with other color
                     {
                         toBeFlipped.Add(new Point(nexti, nextj));
                         nexti = nexti + Directions[k].X;
                         nextj = nextj + Directions[k].Y;
                     }
 
-                    if (nexti < n && nextj < n && board[nexti, nextj].Color == c) //if after the sequence of other color, you saw your own color (trapped other color's pieces), flip the created list
+                    if (nexti < n && nextj < n && board[nexti, nextj] != null && board[nexti, nextj].Color == c) //if after the sequence of other color, you saw your own color (trapped other color's pieces), flip the created list
                     {
                         isThereAnyFlip = true;
                         if (c == Color.White)
@@ -111,6 +111,7 @@ namespace Othelo_Game
             if (doesItScore(i, j, c) == false)
                 return false;
 
+            board[i, j] = new Piece(c);
             return true;
         }
 

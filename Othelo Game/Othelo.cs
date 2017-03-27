@@ -11,7 +11,7 @@ namespace Othelo_Game
     { //Singleton
 
         private static Othelo _instance=null;
-        readonly int n = 6; //row and column are always 10
+        readonly int n = 10; //row and column are always 10
         Grid grid;
         Player player1;
         Player player2;
@@ -83,7 +83,7 @@ namespace Othelo_Game
                 int whitecount = grid.getScore(Color.White);
                 int blackcount = grid.getScore(Color.Black);
                 Color winner;
-                if (whitecount+blackcount==n*n)
+                if (whitecount + blackcount == n * n || blackcount == 0 || whitecount==0)
                 {
                     winner = whitecount > blackcount ? Color.White : Color.Black;
                     Console.WriteLine("The match is over! " + winner.ToString() + " Won the game");
